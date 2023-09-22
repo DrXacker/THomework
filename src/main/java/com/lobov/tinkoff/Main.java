@@ -12,11 +12,14 @@ public class Main {
         weatherList.add(new Weather(1, "Region1", 25.5, new Date()));
         weatherList.add(new Weather(2, "Region2", 28.0, new Date()));
         weatherList.add(new Weather(3, "Region3", 22.8, new Date()));
-        weatherList.add(new Weather(1, "Region1", 24.0, new Date()));
+        weatherList.add(new Weather(1, "Region1", 29.0, new Date()));
         weatherList.add(new Weather(4, "Region4", 28.0, new Date()));
+        weatherList.add(new Weather(4, "Region4", 22.0, new Date()));
 
-        double averageTemperature = calculateAverageTemperature(weatherList);
-        System.out.println("Average temperature: " + averageTemperature);
+        Map<String, Double> averageTemperatureByRegion = calculateAverageTemperature(weatherList);
+        System.out.println("Average temperature in each region:");
+        averageTemperatureByRegion.forEach((region, avgTemperature) ->
+                System.out.println("   " + region + ": " + avgTemperature));
 
         double temperatureThreshold = 25.0;
         List<String> regionsAboveThreshold = findRegionsWithTemperatureGreaterThan(weatherList, temperatureThreshold);
@@ -30,18 +33,18 @@ public class Main {
     }
 
 
-    public static double calculateAverageTemperature(List<Weather> weatherList) {
+    public static Map<String, Double> calculateAverageTemperature(List<Weather> weatherList) {
         return weatherList.stream()
-                .mapToDouble(Weather::getTemperature)
-                .average()
-                .orElse(0.0);
+                .collect(Collectors.groupingBy(Weather::getRegionName,
+                            Collectors.averagingDouble(Weather::getTemperature)));
     }
 
     public static List<String> findRegionsWithTemperatureGreaterThan(List<Weather> weatherList, double temperatureThreshold) {
         return weatherList.stream()
                 .filter(weather -> weather.getTemperature() > temperatureThreshold)
                 .map(Weather::getRegionName)
-                .collect(Collectors.toList());
+                .distinct()
+                .toList();
     }
 
     public static Map<Integer, List<Double>> convertToMapByRegionId(List<Weather> weatherList) {
