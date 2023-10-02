@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -15,13 +15,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class ErrorResponse {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date timestamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_PATTERN)
+    private final String DATE_TIME_PATTERN = "dd-MM-yyyy hh:mm:ss";
+    private LocalDateTime timestamp;
     private HttpStatus status;
     private String message;
 
     public ErrorResponse(HttpStatus status, String message) {
-        this.timestamp = new Date();
+        this.timestamp = LocalDateTime.now();
         this.status = status;
         this.message = message;
     }
