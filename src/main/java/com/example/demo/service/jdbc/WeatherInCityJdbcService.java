@@ -1,20 +1,23 @@
 package com.example.demo.service.jdbc;
 
-import com.example.demo.model.WeatherInCity;
-import com.example.demo.repository.jdbc.WeatherInCityRepository;
+import com.example.demo.model.db.WeatherInCity;
+import com.example.demo.repository.jdbc.WeatherInCityJdbcRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
-public class WeatherInCityService {
-    private WeatherInCityRepository weatherInCityRepository;
+public class WeatherInCityJdbcService {
+    @Autowired
+    private WeatherInCityJdbcRepository weatherInCityRepository;
 
     public List<WeatherInCity> getAllWeatherInCity() {
         return weatherInCityRepository.findAll();
     }
 
-    public WeatherInCity getWeatherInCityById(Long id) {
+    public WeatherInCity getWeatherInCityById(UUID id) {
         return weatherInCityRepository.findById(id);
     }
 
@@ -26,7 +29,7 @@ public class WeatherInCityService {
         weatherInCityRepository.update(weather);
     }
 
-    public void deleteWeatherInCity(Long id) {
+    public void deleteWeatherInCity(UUID id) {
         weatherInCityRepository.delete(id);
     }
 }

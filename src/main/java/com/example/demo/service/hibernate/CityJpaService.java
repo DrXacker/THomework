@@ -1,25 +1,24 @@
 package com.example.demo.service.hibernate;
 
-import com.example.demo.model.City;
-import com.example.demo.repository.hibernate.HibernateCityRepository;
+import com.example.demo.model.db.City;
+import com.example.demo.repository.hibernate.CityJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class HibernateCityService {
+public class CityJpaService {
     @Autowired
-    private HibernateCityRepository cityRepository;
+    private CityJpaRepository cityRepository;
 
     public List<City> getAllCities() {
         return cityRepository.findAll();
     }
 
-    public Optional<City> getCityById(Long id) {
-        return cityRepository.findById(id);
-    }
+    public Optional<City> getCityById(UUID id) { return cityRepository.findById(id); }
 
     public City addCity(City city) {
         return cityRepository.save(city);
@@ -29,7 +28,7 @@ public class HibernateCityService {
         cityRepository.save(city);
     }
 
-    public void deleteCity(Long id) {
+    public void deleteCity(UUID id) {
         cityRepository.deleteById(id);
     }
 }
