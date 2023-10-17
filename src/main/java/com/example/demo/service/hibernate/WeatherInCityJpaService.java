@@ -14,21 +14,21 @@ public class WeatherInCityJpaService {
     @Autowired
     private WeatherInCityJpaRepository weatherInCityRepository;
 
-    public List<WeatherInCity> getAllWeather() {
+    public List<WeatherInCity> getAll() {
         return weatherInCityRepository.findAll();
     }
 
-    public WeatherInCity getWeatherById(UUID id) {
+    public WeatherInCity getById(UUID id) {
         return weatherInCityRepository.findById(id).orElse(null);
     }
 
-    public WeatherInCity addWeather(WeatherInCity weatherInCity) {
+    public WeatherInCity add(WeatherInCity weatherInCity) {
         return weatherInCityRepository.save(weatherInCity);
     }
 
-    public WeatherInCity updateWeather(WeatherInCity weatherInCity) { return weatherInCityRepository.save(weatherInCity); }
+    public WeatherInCity update(WeatherInCity weatherInCity) { return weatherInCityRepository.save(weatherInCity); }
 
-    public void deleteWeather(UUID id) {
+    public void delete(UUID id) {
         weatherInCityRepository.deleteById(id);
     }
 }

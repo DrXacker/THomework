@@ -3,16 +3,12 @@ package com.example.demo.repository.jdbc;
 import com.example.demo.model.db.GuideWeather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,7 +64,7 @@ public class GuideWeatherJdbcRepository {
     }
 
     public UUID findIdByDescription(String description) {
-        String sql = "SELECT id FROM GUIDE_WEATHER WHERE description = :description";
+        String sql = "SELECT DISTINCT id FROM GUIDE_WEATHER WHERE description = :description";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("description", description);
 

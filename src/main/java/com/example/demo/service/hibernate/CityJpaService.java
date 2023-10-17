@@ -20,15 +20,17 @@ public class CityJpaService {
 
     public Optional<City> getCityById(UUID id) { return cityRepository.findById(id); }
 
-    public City addCity(City city) {
+    public City add(City city) {
         return cityRepository.save(city);
     }
 
-    public void updateCity(City city) {
+    public void update(City city) {
         cityRepository.save(city);
     }
 
-    public void deleteCity(UUID id) {
+    public void delete(UUID id) {
         cityRepository.deleteById(id);
     }
+
+    public UUID getIdByCity(String city) { return cityRepository.findIdByCity(city); }
 }

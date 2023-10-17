@@ -13,21 +13,26 @@ public class GuideWeatherJpaService {
     @Autowired
     private GuideWeatherJpaRepository guideWeatherRepository;
 
-    public List<GuideWeather> getAllWeatherTypes() {
+    public List<GuideWeather> getAll() {
         return guideWeatherRepository.findAll();
     }
 
-    public GuideWeather getWeatherTypeById(UUID id) {
+    public GuideWeather getById(UUID id) {
         return guideWeatherRepository.findById(id).orElse(null);
     }
 
-    public GuideWeather addWeatherType(GuideWeather guideWeather) {
-        return guideWeatherRepository.save(guideWeather);
+    public void add(GuideWeather guideWeather) {
+        UUID existingGuideWeather = guideWeatherRepository.findIdByDescription(guideWeather.getDescription());
+        if (existingGuideWeather == null) {
+        guideWeatherRepository.save(guideWeather);
+        }
     }
 
-    public GuideWeather updateWeatherType(GuideWeather guideWeather) { return guideWeatherRepository.save(guideWeather); }
+    public void update(GuideWeather guideWeather) { guideWeatherRepository.save(guideWeather); }
 
-    public void deleteWeatherType(UUID id) {
+    public void delete(UUID id) {
         guideWeatherRepository.deleteById(id);
     }
+
+    public UUID getIdByDescription(String city) { return guideWeatherRepository.findIdByDescription(city); }
 }

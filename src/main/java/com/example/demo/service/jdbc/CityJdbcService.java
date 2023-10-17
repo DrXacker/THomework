@@ -13,21 +13,21 @@ public class CityJdbcService {
     @Autowired
     private CityJdbcRepository cityRepository;
 
-    public List<City> getAllCities() {
+    public List<City> getAll() {
         return cityRepository.findAll();
     }
 
-    public City getCityById(UUID id) {
+    public City getById(UUID id) {
         return cityRepository.findById(id);
     }
 
-    public void addCity(City city) { cityRepository.save(city); }
+    public void add(City city) { cityRepository.save(city); }
 
-    public void updateCity(City city) {
+    public void update(City city) {
         cityRepository.update(city);
     }
 
-    public void deleteCity(UUID id) {
+    public void delete(UUID id) {
         cityRepository.delete(id);
     }
 

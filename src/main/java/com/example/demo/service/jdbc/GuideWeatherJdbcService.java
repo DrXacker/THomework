@@ -13,23 +13,24 @@ public class GuideWeatherJdbcService {
     @Autowired
     private GuideWeatherJdbcRepository guideWeatherRepository;
 
-    public List<GuideWeather> getAllWeatherTypes() {
+    public List<GuideWeather> getAll() {
         return guideWeatherRepository.findAll();
     }
 
-    public GuideWeather getGuideWeatherTypeById(UUID id) {
+    public GuideWeather getById(UUID id) {
         return guideWeatherRepository.findById(id);
     }
 
-    public GuideWeather getGuideWeatherByName(String description) { return guideWeatherRepository.findByDescription(description); }
+    public GuideWeather getByName(String description) { return guideWeatherRepository.findByDescription(description); }
 
-    public void addGuideWeather(GuideWeather guideWeather) {
-        guideWeatherRepository.save(guideWeather);
+    public void add(GuideWeather guideWeather) {
+        GuideWeather existingGuideWeather = guideWeatherRepository.findByDescription(guideWeather.getDescription());
+        if (existingGuideWeather == null) {guideWeatherRepository.save(guideWeather); }
     }
 
-    public void updateGuideWeather(GuideWeather guideWeather) { guideWeatherRepository.update(guideWeather); }
+    public void update(GuideWeather guideWeather) { guideWeatherRepository.update(guideWeather); }
 
-    public void deleteGuideWeather(UUID id) {
+    public void delete(UUID id) {
         guideWeatherRepository.delete(id);
     }
 

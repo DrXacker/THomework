@@ -13,23 +13,23 @@ public class WeatherInCityJdbcService {
     @Autowired
     private WeatherInCityJdbcRepository weatherInCityRepository;
 
-    public List<WeatherInCity> getAllWeatherInCity() {
+    public List<WeatherInCity> getAll() {
         return weatherInCityRepository.findAll();
     }
 
-    public WeatherInCity getWeatherInCityById(UUID id) {
+    public WeatherInCity getById(UUID id) {
         return weatherInCityRepository.findById(id);
     }
 
-    public void addWeatherInCity(WeatherInCity weather) {
+    public void add(WeatherInCity weather) {
         weatherInCityRepository.save(weather);
     }
 
-    public void updateWeatherInCity(WeatherInCity weather) {
+    public void update(WeatherInCity weather) {
         weatherInCityRepository.update(weather);
     }
 
-    public void deleteWeatherInCity(UUID id) {
+    public void delete(UUID id) {
         weatherInCityRepository.delete(id);
     }
 }

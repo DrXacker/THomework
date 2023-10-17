@@ -7,10 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Entity
-@Table(name = "CITY")
+@Table(name = "WEATHER_IN_CITY")
 @Getter
 @Setter
 @ToString

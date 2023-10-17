@@ -6,9 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Entity
+@Table(name = "GUIDE_WEATHER")
 @Setter
 @Getter
 @ToString

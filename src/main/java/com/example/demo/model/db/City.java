@@ -6,9 +6,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "CITY")
 @Setter
 @Getter
 @ToString
