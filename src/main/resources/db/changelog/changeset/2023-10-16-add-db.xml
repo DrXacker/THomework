@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="2023-10-16-city" author="misha">
+        <!-- Добавление записи в таблицу city -->
+        <sql>
+            INSERT INTO CITY (id, name) VALUES (UUID(), 'City1');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2023-10-16-guideweather" author="misha">
+        <!-- Добавление записи в таблицу guideweather -->
+        <sql>
+            INSERT INTO GUIDE_WEATHER (id, description) VALUES (UUID(), 'Sunny');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2023-10-16-weatherincity" author="misha">
+        <!-- Добавление записи в таблицу weatherincity с использованием city_id и guide_id -->
+        <sql>
+            INSERT INTO WEATHER_IN_CITY (id, city_id, date, temperature, guide_id)
+            VALUES (
+                           UUID(),
+                           (SELECT id FROM CITY WHERE name = 'City1'),
+                           '2023-10-14 13:00',
+                           25.0,
+                           (SELECT id FROM GUIDE_WEATHER WHERE description = 'Sunny')
+                   );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
