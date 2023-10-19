@@ -10,29 +10,30 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
 @Qualifier("jdbcWeatherInCityRepository")
 public class WeatherInCityJdbcRepository {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public WeatherInCityJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public WeatherInCityJdbcRepository(DataSource dataSource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);;
     }
 
     public List<WeatherInCity> findAll() {
         String sql = "SELECT * FROM WEATHER_IN_CITY";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WeatherInCity.class));
+        return namedParameterJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WeatherInCity.class));
     }
 
     public WeatherInCity findById(UUID id) {
         String sql = "SELECT * FROM WEATHER_IN_CITY WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
-        return jdbcTemplate.queryForObject(sql, params, new BeanPropertyRowMapper<>(WeatherInCity.class));
+        return namedParameterJdbcTemplate.queryForObject(sql, params, new BeanPropertyRowMapper<>(WeatherInCity.class));
     }
 
     public void save(WeatherInCity weather) {
@@ -43,7 +44,7 @@ public class WeatherInCityJdbcRepository {
         params.addValue("guide_id", weather.getGuideId());
         params.addValue("date", weather.getDate());
         params.addValue("temperature", weather.getTemperature());
-        jdbcTemplate.update(sql, params);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
     public void update(WeatherInCity weather) {
@@ -55,13 +56,13 @@ public class WeatherInCityJdbcRepository {
         params.addValue("date", weather.getDate());
         params.addValue("temperature", weather.getTemperature());
         params.addValue("id", weather.getId());
-        jdbcTemplate.update(sql, params);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
     public void delete(UUID id) {
         String sql = "DELETE FROM WEATHER_IN_CITY WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
-        jdbcTemplate.update(sql, params);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 }

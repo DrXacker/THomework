@@ -27,9 +27,7 @@ public class CityJdbcService {
         cityRepository.update(city);
     }
 
-    public void delete(UUID id) {
-        cityRepository.delete(id);
-    }
+    public void delete(String nameCity) { cityRepository.delete(nameCity); }
 
     public UUID getIdByCity(String name) { return cityRepository.findIdByName(name); }
 }

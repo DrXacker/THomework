@@ -24,15 +24,13 @@ public class GuideWeatherJdbcService {
     public GuideWeather getByName(String description) { return guideWeatherRepository.findByDescription(description); }
 
     public void add(GuideWeather guideWeather) {
-        GuideWeather existingGuideWeather = guideWeatherRepository.findByDescription(guideWeather.getDescription());
+        UUID existingGuideWeather = guideWeatherRepository.findIdByDescription(guideWeather.getDescription());
         if (existingGuideWeather == null) {guideWeatherRepository.save(guideWeather); }
     }
 
     public void update(GuideWeather guideWeather) { guideWeatherRepository.update(guideWeather); }
 
-    public void delete(UUID id) {
-        guideWeatherRepository.delete(id);
-    }
+    public void delete(UUID id) { guideWeatherRepository.delete(id); }
 
     public UUID getIdByDescription(String description) { return guideWeatherRepository.findIdByDescription(description); }
 }

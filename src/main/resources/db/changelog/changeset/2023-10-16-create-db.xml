@@ -48,4 +48,20 @@
                                  referencedTableName="GUIDE_WEATHER" referencedColumnNames="id"
                                  onDelete="CASCADE" onUpdate="CASCADE"/>
     </changeSet>
+
+    <!-- Добавление индексов -->
+    <!-- Добавление индекса на поле name таблицы CITY -->
+    <changeSet author="misha" id="addIndexToCityName">
+        <createIndex indexName="idx_city_name" tableName="CITY">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Добавление составного индекса на поля city_id и guide_id таблицы WEATHER_IN_CITY -->
+    <changeSet author="misha" id="addCompositeIndexToWeatherInCity">
+        <createIndex indexName="idx_weather_in_city_composite" tableName="WEATHER_IN_CITY">
+            <column name="city_id"/>
+            <column name="guide_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

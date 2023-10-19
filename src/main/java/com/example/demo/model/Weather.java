@@ -24,4 +24,3 @@ public class Weather {
         this.description = weatherResponse.getCurrent().getCondition().getText();
     }
 }
-

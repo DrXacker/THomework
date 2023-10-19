@@ -14,11 +14,11 @@ public class CityJpaService {
     @Autowired
     private CityJpaRepository cityRepository;
 
-    public List<City> getAllCities() {
+    public List<City> getAll() {
         return cityRepository.findAll();
     }
 
-    public Optional<City> getCityById(UUID id) { return cityRepository.findById(id); }
+    public Optional<City> getById(UUID id) { return cityRepository.findById(id); }
 
     public City add(City city) {
         return cityRepository.save(city);
@@ -28,9 +28,7 @@ public class CityJpaService {
         cityRepository.save(city);
     }
 
-    public void delete(UUID id) {
-        cityRepository.deleteById(id);
-    }
+    public void delete(String nameCity) { cityRepository.deleteByName(nameCity); }
 
     public UUID getIdByCity(String city) { return cityRepository.findIdByCity(city); }
 }
