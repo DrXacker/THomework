@@ -1,0 +1,55 @@
+package com.example.demo.service.client;
+
+import com.example.demo.config.WeatherApiConfig;
+import com.example.demo.controller.ExceptionControllerAdvice;
+import com.example.demo.exception.*;
+import com.example.demo.model.client.ApiErrorResponse;
+import com.example.demo.model.Weather;
+import com.example.demo.model.client.WeatherResponse;
+import com.example.demo.payload.ErrorResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class WeatherApiClient {
+
+    private final RestTemplate restTemplate;
+    private final RateLimiter rateLimiter;
+    private final WeatherApiConfig weatherApiConfig;
+
+    public WeatherApiClient(@Qualifier("restTemplate") RestTemplate restTemplate, @Qualifier("rateLimiter") RateLimiter rateLimiter, WeatherApiConfig weatherApiConfig) {
+        this.restTemplate = restTemplate;
+        this.rateLimiter = rateLimiter;
+        this.weatherApiConfig = weatherApiConfig;
+    }
+
+    public Weather getCurrentWeather(String city) {
+        try {
+            return rateLimiter.executeSupplier(() -> {
+                String apiUrl = weatherApiConfig.getBaseUrl() + "/v1/current.json?key=" + weatherApiConfig.getApiKey() + "&q=" + city + "&aqi=no";
+                WeatherResponse weatherResponse = restTemplate.getForObject(apiUrl, WeatherResponse.class);
+                assert weatherResponse != null;
+                return new Weather(weatherResponse);
+            });
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.BAD_REQUEST){
+                throw new WeatherBadRequestException(e.getStatusCode().toString());
+            }
+            else if (e.getStatusCode() == HttpStatus.FORBIDDEN){
+                throw new WeatherForbiddenException(e.getStatusCode().toString());
+            }
+            else if (e.getStatusCode() == HttpStatus.REQUEST_TIMEOUT)
+                throw new WeatherRequestTimeoutException(e.getStatusCode().toString());
+        } catch (HttpServerErrorException e) {
+            throw new InternalServerErrorException(e.getStatusCode().toString());
+        }
+        return null;
+    }
+}
