@@ -12,6 +12,8 @@ public interface CityJpaRepository extends JpaRepository<City, UUID> {
     @Query("SELECT c.id FROM City c WHERE c.name = :name")
     UUID findIdByCity(@Param("name") String name);
 
-    @Query("DELETE FROM City WHERE name = :name")
-    void deleteByName(@Param("name") String name);
+    void deleteCitiesByName(String name);
+
+//    @Query("DELETE FROM City WHERE name = :name")
+//    void deleteByName(@Param("name") String name);
 }

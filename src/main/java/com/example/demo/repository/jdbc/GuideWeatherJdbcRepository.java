@@ -43,7 +43,7 @@ public class GuideWeatherJdbcRepository {
     }
 
     public void save(GuideWeather guideWeather) {
-        String sql = "INSERT INTO GUIDE_WEATHER (id, description) VALUES (UUID(), :description)";
+        String sql = "INSERT INTO GUIDE_WEATHER (id, description) VALUES (gen_random_uuid(), :description)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("description", guideWeather.getDescription());
         namedParameterJdbcTemplate.update(sql, params);

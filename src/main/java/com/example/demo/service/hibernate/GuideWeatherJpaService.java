@@ -30,9 +30,7 @@ public class GuideWeatherJpaService {
 
     public void update(GuideWeather guideWeather) { guideWeatherRepository.save(guideWeather); }
 
-    public void delete(UUID id) {
-        guideWeatherRepository.deleteById(id);
-    }
+    public void delete(UUID id) { guideWeatherRepository.deleteById(id);}
 
     public UUID getIdByDescription(String city) { return guideWeatherRepository.findIdByDescription(city); }
 }

@@ -12,4 +12,6 @@ public interface GuideWeatherJpaRepository extends JpaRepository<GuideWeather, U
 
     @Query("SELECT gw.id FROM GuideWeather gw WHERE gw.description = :description")
     UUID findIdByDescription(@Param("description") String description);
+
+    void deleteById(UUID id);
 }

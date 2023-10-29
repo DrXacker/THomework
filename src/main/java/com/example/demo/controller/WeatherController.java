@@ -1,20 +1,21 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Weather;
+import com.example.demo.payload.ErrorResponse;
 import com.example.demo.service.client.WeatherApiClient;
 import com.example.demo.service.WeatherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/weather")
 public class WeatherController {
     private final WeatherService weatherService;
-    private final WeatherApiClient weatherApiClient;
 
-    public WeatherController(WeatherService weatherService, WeatherApiClient weatherApiClient) {
+    public WeatherController(WeatherService weatherService) {
         this.weatherService = weatherService;
-        this.weatherApiClient = weatherApiClient;
     }
 
     @GetMapping("/{city}")
@@ -37,8 +38,4 @@ public class WeatherController {
         weatherService.deleteWeather(city);
     }
 
-    @GetMapping("/weather")
-    public Weather getWeatherApi(@RequestParam String city) throws JsonProcessingException {
-        return weatherApiClient.getCurrentWeather(city);
-    }
 }

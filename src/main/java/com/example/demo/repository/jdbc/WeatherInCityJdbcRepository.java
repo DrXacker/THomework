@@ -38,7 +38,7 @@ public class WeatherInCityJdbcRepository {
 
     public void save(WeatherInCity weather) {
         String sql = "INSERT INTO WEATHER_IN_CITY (id, city_id, guide_id, date , temperature) " +
-                "VALUES (UUID(), :city_id, :guide_id, :date, :temperature)";
+                "VALUES (gen_random_uuid(), :city_id, :guide_id, :date, :temperature)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("city_id", weather.getCityId());
         params.addValue("guide_id", weather.getGuideId());

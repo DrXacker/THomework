@@ -1,10 +1,12 @@
 package com.example.demo.service.client;
 
 import com.example.demo.config.WeatherApiConfig;
+import com.example.demo.controller.ExceptionControllerAdvice;
 import com.example.demo.exception.*;
 import com.example.demo.model.client.ApiErrorResponse;
 import com.example.demo.model.Weather;
 import com.example.demo.model.client.WeatherResponse;
+import com.example.demo.payload.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.ratelimiter.RateLimiter;
@@ -28,7 +30,7 @@ public class WeatherApiClient {
         this.weatherApiConfig = weatherApiConfig;
     }
 
-    public Weather getCurrentWeather(String city) throws JsonProcessingException {
+    public Weather getCurrentWeather(String city) {
         try {
             return rateLimiter.executeSupplier(() -> {
                 String apiUrl = weatherApiConfig.getBaseUrl() + "/v1/current.json?key=" + weatherApiConfig.getApiKey() + "&q=" + city + "&aqi=no";
@@ -37,20 +39,16 @@ public class WeatherApiClient {
                 return new Weather(weatherResponse);
             });
         } catch (HttpClientErrorException e) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ApiErrorResponse apiErrorResponse = objectMapper.readValue(e.getResponseBodyAsString(), ApiErrorResponse.class);
             if (e.getStatusCode() == HttpStatus.BAD_REQUEST){
-                throw new WeatherBadRequestException(apiErrorResponse.getError().getErrormessage());
+                throw new WeatherBadRequestException(e.getStatusCode().toString());
             }
             else if (e.getStatusCode() == HttpStatus.FORBIDDEN){
-                throw new WeatherForbiddenException(apiErrorResponse.getError().getErrormessage());
+                throw new WeatherForbiddenException(e.getStatusCode().toString());
             }
             else if (e.getStatusCode() == HttpStatus.REQUEST_TIMEOUT)
-                throw new WeatherRequestTimeoutException(apiErrorResponse.getError().getErrormessage());
+                throw new WeatherRequestTimeoutException(e.getStatusCode().toString());
         } catch (HttpServerErrorException e) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ApiErrorResponse apiErrorResponse = objectMapper.readValue(e.getResponseBodyAsString(), ApiErrorResponse.class);
-            throw new InternalServerErrorException(e.getResponseBodyAsString());
+            throw new InternalServerErrorException(e.getStatusCode().toString());
         }
         return null;
     }

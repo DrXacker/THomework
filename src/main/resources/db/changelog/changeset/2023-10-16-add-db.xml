@@ -7,14 +7,14 @@
     <changeSet id="2023-10-16-city" author="misha">
         <!-- Добавление записи в таблицу city -->
         <sql>
-            INSERT INTO CITY (id, name) VALUES (UUID(), 'City1');
+            INSERT INTO CITY (id, name) VALUES (gen_random_uuid(), 'City1');
         </sql>
     </changeSet>
 
     <changeSet id="2023-10-16-guideweather" author="misha">
         <!-- Добавление записи в таблицу guideweather -->
         <sql>
-            INSERT INTO GUIDE_WEATHER (id, description) VALUES (UUID(), 'Sunny');
+            INSERT INTO GUIDE_WEATHER (id, description) VALUES (gen_random_uuid(), 'Sunny');
         </sql>
     </changeSet>
 
@@ -23,11 +23,11 @@
         <sql>
             INSERT INTO WEATHER_IN_CITY (id, city_id, date, temperature, guide_id)
             VALUES (
-                           UUID(),
-                           (SELECT id FROM CITY WHERE name = 'City1'),
-                           '2023-10-14 13:00',
-                           25.0,
-                           (SELECT id FROM GUIDE_WEATHER WHERE description = 'Sunny')
+                       gen_random_uuid(),
+                       (SELECT id FROM CITY WHERE name = 'City1'),
+                       '2023-10-14 13:00',
+                       25.0,
+                       (SELECT id FROM GUIDE_WEATHER WHERE description = 'Sunny')
                    );
         </sql>
     </changeSet>

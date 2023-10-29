@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ErrorResponse {
+public class ErrorResponse extends Throwable {
     private static final String DATE_TIME_PATTERN = "dd-MM-yyyy hh:mm:ss";
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_PATTERN)
     private LocalDateTime timestamp;

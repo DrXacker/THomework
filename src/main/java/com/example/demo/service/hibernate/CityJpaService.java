@@ -28,7 +28,7 @@ public class CityJpaService {
         cityRepository.save(city);
     }
 
-    public void delete(String nameCity) { cityRepository.deleteByName(nameCity); }
+    public void delete(String nameCity) { cityRepository.deleteCitiesByName(nameCity); }
 
     public UUID getIdByCity(String city) { return cityRepository.findIdByCity(city); }
 }

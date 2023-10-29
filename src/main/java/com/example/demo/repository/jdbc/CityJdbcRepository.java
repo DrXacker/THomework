@@ -36,7 +36,7 @@ public class CityJdbcRepository {
     }
 
     public void save(City city) {
-        String sql = "INSERT INTO CITY (id, name) VALUES (UUID() , :name)";
+        String sql = "INSERT INTO CITY (id, name) VALUES (gen_random_uuid() , :name)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", city.getName());
         namedParameterJdbcTemplate.update(sql, params);
