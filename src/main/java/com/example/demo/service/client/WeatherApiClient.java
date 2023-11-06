@@ -1,14 +1,9 @@
 package com.example.demo.service.client;
 
 import com.example.demo.config.WeatherApiConfig;
-import com.example.demo.controller.ExceptionControllerAdvice;
 import com.example.demo.exception.*;
-import com.example.demo.model.client.ApiErrorResponse;
 import com.example.demo.model.Weather;
 import com.example.demo.model.client.WeatherResponse;
-import com.example.demo.payload.ErrorResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

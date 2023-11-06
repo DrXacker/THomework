@@ -1,16 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Weather;
-import com.example.demo.payload.ErrorResponse;
-import com.example.demo.service.client.WeatherApiClient;
 import com.example.demo.service.WeatherService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
-@RequestMapping("/api/weather")
+@RequestMapping("/api/weather1")
 public class WeatherController {
     private final WeatherService weatherService;
 

@@ -31,4 +31,34 @@
                    );
         </sql>
     </changeSet>
+
+    <changeSet id="2023-11-01-roles" author="misha">
+        <!-- Добавление ролей -->
+        <sql>
+            <![CDATA[
+            INSERT INTO ROLES(id, name) VALUES (1, 'ROLE_USER');
+            INSERT INTO ROLES(id, name) VALUES (2, 'ROLE_ADMIN');
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2023-11-01-users" author="misha">
+        <!-- Добавление администратора -->
+        <sql>
+            INSERT INTO USERS(username, password)
+                VALUES ('admin', '$2a$10$OjkJkUnx4PmpoMHrofZ.FeTHwq5XzixORaWF5bESNSLhi8qS0Nm8a');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2023-11-01-userrole" author="misha">
+        <!-- Присвоение  администратору роли-->
+        <sql>
+            <![CDATA[
+
+            INSERT INTO USER_ROLE(user_id, role_id) VALUES (
+                (SELECT id FROM USERS WHERE username = 'admin'),
+                (SELECT id FROM ROLES WHERE name = 'ROLE_ADMIN'));
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

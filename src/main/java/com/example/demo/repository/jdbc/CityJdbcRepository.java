@@ -20,7 +20,7 @@ public class CityJdbcRepository {
 
     @Autowired
     public CityJdbcRepository(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);;
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public List<City> findAll() {
@@ -36,7 +36,7 @@ public class CityJdbcRepository {
     }
 
     public void save(City city) {
-        String sql = "INSERT INTO CITY (id, name) VALUES (gen_random_uuid() , :name)";
+        String sql = "INSERT INTO CITY (id, name) VALUES (gen_random_uuid(), :name)";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", city.getName());
         namedParameterJdbcTemplate.update(sql, params);

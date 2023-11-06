@@ -10,6 +10,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleCustomDataConflictExceptions(Exception e) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        return new ResponseEntity<>(new ErrorResponse(status, e.getMessage()), status);
+    }
     @ExceptionHandler(WeatherBadRequestException.class)
     public ResponseEntity<ErrorResponse> handleCustomDataBadRequestExceptions(Exception e) {
         HttpStatus status = HttpStatus.BAD_REQUEST;

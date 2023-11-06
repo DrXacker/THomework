@@ -16,7 +16,6 @@ import static com.example.demo.util.ServiceUtil.isSameDay;
 @Service
 public class WeatherService {
     private List<Weather> weathers = new CopyOnWriteArrayList<>();
-    private UUID nextId;
 
     public Weather getWeatherOnCurrentDateByCity(String city) {
         return weathers.stream()

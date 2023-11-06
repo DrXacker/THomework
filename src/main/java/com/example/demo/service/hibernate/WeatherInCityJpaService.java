@@ -22,6 +22,8 @@ public class WeatherInCityJpaService {
         return weatherInCityRepository.findById(id).orElse(null);
     }
 
+    public WeatherInCity getByCityId(UUID id) { return weatherInCityRepository.findByCityId(id); }
+
     public WeatherInCity add(WeatherInCity weatherInCity) {
         return weatherInCityRepository.save(weatherInCity);
     }

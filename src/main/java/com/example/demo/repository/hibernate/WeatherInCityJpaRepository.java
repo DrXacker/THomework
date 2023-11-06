@@ -12,4 +12,6 @@ public interface WeatherInCityJpaRepository extends JpaRepository<WeatherInCity,
     void deleteById(UUID id);
 
     void deleteByTemperature(LocalDateTime localDateTime);
+
+    WeatherInCity findByCityId(UUID id);
 }

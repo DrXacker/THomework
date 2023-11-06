@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +28,48 @@ public class JpaTransaction {
         this.cityJpaService = cityJpaService;
         this.guideWeatherJpaService = guideWeatherJpaService;
         this.weatherInCityJpaService = weatherInCityJpaService;
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public List<Weather> getAllWeatherData() {
+        List<WeatherInCity> weatherInCities = weatherInCityJpaService.getAll();
+        List<Weather> weatherDataList = new ArrayList<>();
+
+        for (WeatherInCity weatherInCity : weatherInCities) {
+            City city = cityJpaService.getById(weatherInCity.getCityId()).orElse(null);
+            if (city != null) {
+                GuideWeather guideWeather = guideWeatherJpaService.getById(weatherInCity.getGuideId());
+
+                Weather weather = new Weather();
+                weather.setId(weatherInCity.getCityId());
+                weather.setCity(city.getName());
+                weather.setTemperature(weatherInCity.getTemperature());
+                weather.setDateTime(weatherInCity.getDate());
+                weather.setDescription(guideWeather != null ? guideWeather.getDescription() : null);
+
+                weatherDataList.add(weather);
+            }
+        }
+
+        return weatherDataList;
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public Weather getWeatherData(String name) {
+        City city = cityJpaService.getByName(name).orElse(null);
+        if (city == null) { return null; }
+
+        WeatherInCity weatherInCity = weatherInCityJpaService.getByCityId(city.getId());
+        GuideWeather guideWeather = guideWeatherJpaService.getById(weatherInCity.getGuideId());
+
+        Weather weather = new Weather();
+        weather.setId(city.getId());
+        weather.setCity(city.getName());
+        weather.setTemperature(weatherInCity.getTemperature());
+        weather.setDateTime(weatherInCity.getDate());
+        weather.setDescription(guideWeather.getDescription());
+
+        return weather;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

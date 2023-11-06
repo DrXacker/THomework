@@ -4,6 +4,43 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
+    <!-- Создание таблицы Users -->
+    <changeSet author="misha" id="createUserTable">
+        <createTable tableName="USERS">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Создание таблицы Roles -->
+    <changeSet author="misha" id="createRoleTable">
+        <createTable tableName="ROLES">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+
+    <!-- Создание таблицы USER_ROLE -->
+    <changeSet author="misha" id="createUserRoleTable">
+        <createTable tableName="USER_ROLE">
+            <column name="user_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <!-- Создание таблицы City -->
     <changeSet author="misha" id="createCityTable">
         <createTable tableName="CITY">
@@ -46,6 +83,12 @@
         <addForeignKeyConstraint baseTableName="WEATHER_IN_CITY" baseColumnNames="guide_id"
                                  constraintName="FK_WeatherInCity_GuideWeather"
                                  referencedTableName="GUIDE_WEATHER" referencedColumnNames="id"
+                                 onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE" baseColumnNames="user_id"
+                                 constraintName="fk_user_roles_user_id" referencedTableName="USERS" referencedColumnNames="id"
+                                 onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint baseTableName="USER_ROLE" baseColumnNames="role_id"
+                                 constraintName="fk_user_roles_role_id" referencedTableName="ROLES" referencedColumnNames="id"
                                  onDelete="CASCADE" onUpdate="CASCADE"/>
     </changeSet>
 

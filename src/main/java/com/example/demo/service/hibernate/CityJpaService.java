@@ -20,6 +20,8 @@ public class CityJpaService {
 
     public Optional<City> getById(UUID id) { return cityRepository.findById(id); }
 
+    public Optional<City> getByName(String city) { return cityRepository.findByName(city); }
+
     public City add(City city) {
         return cityRepository.save(city);
     }

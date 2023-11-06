@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface CityJpaRepository extends JpaRepository<City, UUID> {
@@ -13,6 +14,8 @@ public interface CityJpaRepository extends JpaRepository<City, UUID> {
     UUID findIdByCity(@Param("name") String name);
 
     void deleteCitiesByName(String name);
+
+    Optional<City> findByName(String city);
 
 //    @Query("DELETE FROM City WHERE name = :name")
 //    void deleteByName(@Param("name") String name);
