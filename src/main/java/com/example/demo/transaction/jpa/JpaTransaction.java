@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class JpaTransaction {
@@ -55,7 +56,7 @@ public class JpaTransaction {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public Weather getWeatherData(String name) {
+    public Weather getWeatherDataForCity(String name) {
         City city = cityJpaService.getByName(name).orElse(null);
         if (city == null) { return null; }
 
@@ -105,5 +106,24 @@ public class JpaTransaction {
         exampleWC.setCityId(cityJpaService.getIdByCity(weather.getCity()));
         exampleWC.setGuideId(guideWeatherJpaService.getIdByDescription(weather.getDescription()));
         weatherInCityJpaService.add(exampleWC);
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void updateWeatherDataForCity (String city, Weather weather) {
+        UUID uuidCity = cityJpaService.getIdByCity(city);
+
+        GuideWeather exampleGW = new GuideWeather();
+        exampleGW.setDescription(weather.getDescription());
+        guideWeatherJpaService.add(exampleGW);
+
+        UUID uuidWeatherInCity = weatherInCityJpaService.getIdByCityId(uuidCity);
+
+        WeatherInCity exampleWC = new WeatherInCity();
+        exampleWC.setId(uuidWeatherInCity);
+        exampleWC.setDate(weather.getDateTime());
+        exampleWC.setTemperature(weather.getTemperature());
+        exampleWC.setCityId(cityJpaService.getIdByCity(city));
+        exampleWC.setGuideId(guideWeatherJpaService.getIdByDescription(weather.getDescription()));
+        weatherInCityJpaService.update(exampleWC);
     }
 }

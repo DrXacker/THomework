@@ -18,6 +18,8 @@ public class WeatherInCityJpaService {
         return weatherInCityRepository.findAll();
     }
 
+    public UUID getIdByCityId(UUID cityId) { return weatherInCityRepository.findIdByCityId(cityId); }
+
     public WeatherInCity getById(UUID id) {
         return weatherInCityRepository.findById(id).orElse(null);
     }
