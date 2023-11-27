@@ -25,5 +25,7 @@ public class WeatherInCity {
     private UUID guideId;
 
     private LocalDateTime date;
+
+    @Column(name = "temperature")
     private double temperature;
 }

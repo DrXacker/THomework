@@ -35,4 +35,10 @@ public class WeatherInCityJpaService {
     public void delete(UUID id) {
         weatherInCityRepository.deleteById(id);
     }
+
+    public int getCountByCityId(UUID cityId) { return weatherInCityRepository.countWeatherInCitiesByCityId(cityId); }
+
+    public void deleteAllByCityId(UUID cityId) { weatherInCityRepository.deleteAllByCityId(cityId); }
+
+    public List<WeatherInCity> getAllByCityId(UUID cityId) { return weatherInCityRepository.getAllByCityId(cityId); }
 }

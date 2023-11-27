@@ -33,7 +33,7 @@ public class MainController {
     @PostMapping("/api/admin/{city}")
     @PreAuthorize("hasRole('ADMIN')")
     public void addCity(@PathVariable String city){
-        jpaTransaction.insertDataFromAPI(weatherApiClient.getCurrentWeather(city));
+        jpaTransaction.insertData(weatherApiClient.getCurrentWeather(city));
     }
 
     @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)

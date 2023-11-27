@@ -91,7 +91,7 @@ public class JpaTransaction {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void insertDataFromAPI (Weather weather) {
+    public void insertData(Weather weather) {
         City exampleCity = new City();
         exampleCity.setName(weather.getCity());
         cityJpaService.add(exampleCity);

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -19,4 +20,10 @@ public interface WeatherInCityJpaRepository extends JpaRepository<WeatherInCity,
 
     @Query("SELECT c.id FROM WeatherInCity c WHERE c.cityId = :city_id")
     UUID findIdByCityId(@Param("city_id") UUID cityId);
+
+    int countWeatherInCitiesByCityId(UUID cityId);
+
+    void deleteAllByCityId(UUID cityId);
+
+    List<WeatherInCity> getAllByCityId(UUID cityId);
 }
